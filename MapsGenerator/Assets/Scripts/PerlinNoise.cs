@@ -5,35 +5,40 @@ using UnityEngine;
 
 public class PerlinNoise : MonoBehaviour
 {
+    private new Renderer renderer;
+
+    private void Awake()
+    {
+        //By zmieniï¿½ teksturï¿½ musimy uzyskaï¿½ dostep rendera, materiaï¿½u i dopiero do tekstury
+        renderer = GetComponent<Renderer>();
+    }
     void Update()
     {
-        //By zmieniæ teksturê musimy uzyskaæ dostep rendera, materia³u i dopiero do tekstury
-        Renderer renderer = GetComponent<Renderer>();
-        //Zmiana tekstury na t¹ która wygenerujemy
-        renderer.material.mainTexture = GenerateTexture();
-
+        if (!Manager.Instance.ShouldStop())
+            //Zmiana tekstury na tï¿½ ktï¿½ra wygenerujemy
+            renderer.material.mainTexture = GenerateTexture();
     }
 
     Texture2D GenerateTexture()
     {
         Texture2D texture = new Texture2D(Manager.Instance.width, Manager.Instance.height);
-        
-        //Generowanie mapy szumów dla tekstury
-        //Aby wygenerowaæ mape szumów Perlina trzeba przejœæ przez wszystkie piksele w naszej teksturze
-        //U¿yjemy wiêc kilku pêtli by przejœæ przez wszystkie wspó³rzêdne 
 
-        for(int x = 0; x < Manager.Instance.width; x++) //tyle razy ile pikseli szerokoœci
+        //Generowanie mapy szumï¿½w dla tekstury
+        //Aby wygenerowaï¿½ mape szumï¿½w Perlina trzeba przejï¿½ï¿½ przez wszystkie piksele w naszej teksturze
+        //Uï¿½yjemy wiï¿½c kilku pï¿½tli by przejï¿½ï¿½ przez wszystkie wspï¿½rzï¿½dne 
+
+        for (int x = 0; x < Manager.Instance.width; x++) //tyle razy ile pikseli szerokoï¿½ci
         {
-            for(int y = 0; y < Manager.Instance.height; y++) //tyle razy ile pikseli wysokoœci
+            for (int y = 0; y < Manager.Instance.height; y++) //tyle razy ile pikseli wysokoï¿½ci
             {
                 float sample = Manager.Instance.CalculateHeight(x, y);
-                //Kolor jest wartoœcia generowan¹ przez nasz¹ funkcjê szumu
+                //Kolor jest wartoï¿½cia generowanï¿½ przez naszï¿½ funkcjï¿½ szumu
                 Color color = Manager.Instance.CalculateColor(sample);
-                //Dla ka¿dego przypadku ustawiamy piksel, równy kolorowi okreœlonemu przez szum
+                //Dla kaï¿½dego przypadku ustawiamy piksel, rï¿½wny kolorowi okreï¿½lonemu przez szum
                 texture.SetPixel(x, y, color);
             }
         }
-        //Musimy zastosowaæ dane koloru tekstury po zmianie 
+        //Musimy zastosowaï¿½ dane koloru tekstury po zmianie 
         texture.Apply();
 
         return texture;

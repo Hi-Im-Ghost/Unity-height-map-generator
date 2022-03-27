@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class Generator : MonoBehaviour
 {
+    private Terrain terrain;
+
+    private void Awake()
+    {
+        terrain = GetComponent<Terrain>();
+    }
+
     void Update()
     {
-        //Tworzymy zmienn¹ by móc zmieniaæ dane terenu 
-        Terrain terrain = GetComponent<Terrain>();
-        //Ustawiamy w zmiennej dane terenu, które zostan¹ wygenerowane 
+        //Ustawiamy w zmiennej dane terenu, ktï¿½re zostanï¿½ wygenerowane 
         terrain.terrainData = GenerateTerrain(terrain.terrainData);
 
     }
@@ -17,29 +22,29 @@ public class Generator : MonoBehaviour
     //Metoda do generowanie danych terenu 
     TerrainData GenerateTerrain(TerrainData terrainData)
     {
-        //Ustawienie rozdzielczoœci dla mapy terenu
+        //Ustawienie rozdzielczoï¿½ci dla mapy terenu
         terrainData.heightmapResolution = Manager.Instance.width + 1;
-        //Ustawianie wymiarów terenu
+        //Ustawianie wymiarï¿½w terenu
         terrainData.size = new Vector3(Manager.Instance.width, Manager.Instance.depth, Manager.Instance.height);
 
-        //Ustawiamy tablice mapy wysokoœci. Zakres 0-1
+        //Ustawiamy tablice mapy wysokoï¿½ci. Zakres 0-1
         terrainData.SetHeights(0, 0, GenerateHeights());
 
         return terrainData;
     }
 
-    //Generowanie wysokoœci za pomoc¹ szumu
+    //Generowanie wysokoï¿½ci za pomocï¿½ szumu
     float[,] GenerateHeights()
     {
         //utworzenie dwuwymiarowej tablicy float
-        float [,] heights = new float[Manager.Instance.width, Manager.Instance.height];
-        //przechodzimy pêtlami przez ka¿dy punkt by ustawiæ wartoœæ z szumu
-        for(int x=0; x<Manager.Instance.width; x++)
+        float[,] heights = new float[Manager.Instance.width, Manager.Instance.height];
+        //przechodzimy pï¿½tlami przez kaï¿½dy punkt by ustawiï¿½ wartoï¿½ï¿½ z szumu
+        for (int x = 0; x < Manager.Instance.width; x++)
         {
-            for(int y=0; y<Manager.Instance.height; y++)
+            for (int y = 0; y < Manager.Instance.height; y++)
             {
-                //przypisanie tablicy wartoœci szumu
-                heights[x, y] = Manager.Instance.CalculateHeight(x,y);
+                //przypisanie tablicy wartoï¿½ci szumu
+                heights[x, y] = Manager.Instance.CalculateHeight(x, y);
             }
         }
         return heights;

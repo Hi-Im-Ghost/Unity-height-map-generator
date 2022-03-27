@@ -5,12 +5,15 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public static Manager Instance { get; private set; }
+    public bool stop = false;
     public int width = 256;
     public int height = 256;
+
+    public float scrollSpeed = 5f;
     public float intensity = 20f;
-    public float offsetX = 100f;
-    public float offsetY = 100f;
-    //Wysokoœæ na osi Y terenu
+    public float offsetX;
+    public float offsetY;
+    //Wysokoï¿½ï¿½ na osi Y terenu
     public int depth = 20;
     private void Awake()
     {
@@ -26,21 +29,22 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
-        //animowanie przesuwania co klatke
-        offsetX += Time.deltaTime * 5f;
+        if (!Manager.Instance.ShouldStop())
+            //animowanie przesuwania co klatke
+            offsetX += Time.deltaTime * scrollSpeed;
         //offsetY += Time.deltaTime * 2f;
     }
 
-    //Funkcja do generowanie wysokoœci szumu Perlina
+    //Funkcja do generowanie wysokoï¿½ci szumu Perlina
     public float CalculateHeight(int x, int y)
     {
-        //Ka¿emy przejœæ od 0 do 1 ni¿ jakby mia³o przechodziæ od 0 do 256
-        //Im mniejszy x tym bardziej zbli¿amy siê do 0 a im wiêkszy tym bli¿ej do 1
-        float xCoord = (float)x / width * intensity + offsetX; //Wspó³rzêdne dla Perlinga
-        float yCoord = (float)y / height * intensity + offsetY; //Wspó³rzêdne dla Perlinga
+        //Kaï¿½emy przejï¿½ï¿½ od 0 do 1 niï¿½ jakby miaï¿½o przechodziï¿½ od 0 do 256
+        //Im mniejszy x tym bardziej zbliï¿½amy siï¿½ do 0 a im wiï¿½kszy tym bliï¿½ej do 1
+        float xCoord = (float)x / width * intensity + offsetX; //Wspï¿½rzï¿½dne dla Perlinga
+        float yCoord = (float)y / height * intensity + offsetY; //Wspï¿½rzï¿½dne dla Perlinga
 
         //Matematyczny szum Perlina
-        return Mathf.PerlinNoise(xCoord, yCoord); //U¿ywamy miejsca dziesiêtnego
+        return Mathf.PerlinNoise(xCoord, yCoord); //Uï¿½ywamy miejsca dziesiï¿½tnego
 
 
     }
@@ -48,7 +52,12 @@ public class Manager : MonoBehaviour
     //Funkcja do generowanie koloru szumu Perlina
     public Color CalculateColor(float sample)
     {
-        //Otrzymamy czarny, bia³y b¹dŸ ró¿ne odcienie szarosci
+        //Otrzymamy czarny, biaï¿½y bï¿½dï¿½ rï¿½ne odcienie szarosci
         return new Color(sample, sample, sample);
+    }
+
+    public bool ShouldStop()
+    {
+        return stop;
     }
 }
