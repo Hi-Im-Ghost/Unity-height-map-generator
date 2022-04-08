@@ -40,8 +40,8 @@ public class Manager : MonoBehaviour
     {
         //Ka�emy przej�� od 0 do 1 ni� jakby mia�o przechodzi� od 0 do 256
         //Im mniejszy x tym bardziej zbli�amy si� do 0 a im wi�kszy tym bli�ej do 1
-        float xCoord = (float)x / width * intensity + offsetX; //Wsp�rz�dne dla Perlinga
-        float yCoord = (float)y / height * intensity + offsetY; //Wsp�rz�dne dla Perlinga
+        float xCoord = (float)x / width * intensity + offsetX; //Wsp�rz�dne dla Perlina
+        float yCoord = (float)y / height * intensity + offsetY; //Wsp�rz�dne dla Perlina
 
         //Matematyczny szum Perlina
         return Mathf.PerlinNoise(xCoord, yCoord); //U�ywamy miejsca dziesi�tnego

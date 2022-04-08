@@ -34,7 +34,7 @@ public class Generator : MonoBehaviour
     }
 
     //Generowanie wysoko�ci za pomoc� szumu
-    float[,] GenerateHeights()
+    static float[,] GenerateHeights()
     {
         //utworzenie dwuwymiarowej tablicy float
         float[,] heights = new float[Manager.Instance.width, Manager.Instance.height];
@@ -48,5 +48,31 @@ public class Generator : MonoBehaviour
             }
         }
         return heights;
+    }
+
+    static float[,] GenerateNoise(int width, int height)
+    {
+        float[,] heights = new float[Manager.Instance.width, Manager.Instance.height];
+        
+        for (int y=0; y < height; y++) {
+            for (int x=0; x < width; x++) {
+                
+                float atX = x;
+                float atY = y;
+                //float noiseHeight = 0;
+
+                float perlinValue = Mathf.PerlinNoise(atX, atY) * 2 - 1;
+                //noiseHeight += perlinValue * amplitude;
+                heights[x,y] = perlinValue;
+            }
+
+        }
+        return heights;
+    }
+
+    public static Color CalculateColor(float sample)
+    {
+        //Otrzymamy czarny, bia�y b�d� r�ne odcienie szarosci
+        return new Color(sample, sample, sample);
     }
 }
